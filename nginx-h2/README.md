@@ -12,6 +12,13 @@ $ docker build -t nginx-h2 .
 $ docker run -d -p 8443:443 -v /path/to/my/website/:/usr/local/nginx/html/ nginx-h2
 ```
 
+Or you may just pull the image from Dockerhub.
+
+```
+$ docker pull devopsbluesoft/nginx-h2
+$ docker run -d -p 8443:443 -v /caminho/do/meu-site/:/usr/local/nginx/html/ nginx-h2
+```
+
 Change ```/path/to/my/website/``` to the absolute path to your website.
 
 Access ```https://localhost:8443/``` through your browser and have fun!
