@@ -1,0 +1,25 @@
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@example.com
+    DocumentRoot "/usr/local/httpd/htdocs/"
+
+    ErrorLog "logs/error_log"
+    CustomLog "logs/access_log" common
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerAdmin webmaster@example.com
+    DocumentRoot "/usr/local/httpd/htdocs/"
+
+    SSLEngine on
+
+    SSLCipherSuite EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA256:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA384:EDH+aRSA+AESGCM:EDH+aRSA+SHA256:EDH+aRSA:EECDH:!aNULL:!eNULL:!MEDIUM:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS:!RC4:!SEED
+    SSLProtocol TLSv1 TLSv1.1 TLSv1.2
+
+    SSLCertificateFile /usr/local/httpd/conf/ssl/server.crt
+    SSLCertificateKeyFile /usr/local/httpd/conf/ssl/server.key
+
+    ErrorLog "logs/error_log"
+    CustomLog "logs/access_log" common
+</VirtualHost>
+
