@@ -5,7 +5,12 @@ MAINTAINER Bluesoft Fire <devops@bluesoft.com.br>
 # Install dependencies
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get -y install gcc g++ wget libpcre3-dev make
+    apt-get -y install \
+        g++ \
+        gcc \
+        libpcre4-dev \
+        make \
+        wget
 
 # Download apache apr
 RUN mkdir -p $HOME/src/ && \
