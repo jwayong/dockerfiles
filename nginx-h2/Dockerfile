@@ -4,7 +4,15 @@ MAINTAINER Bluesoft Fire <devops@bluesoft.com.br>
 # Install dependencies
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get -y install gcc g++ make patch wget libpcre3-dev zlib1g-dev libssl-dev
+    apt-get -y install \
+        g++ \
+        gcc \
+        libpcre3-dev \
+        libssl-dev \
+        make \
+        patch \
+        wget \
+        zlib1g-dev
 
 # Download nginx
 RUN mkdir $HOME/src && \
