@@ -72,6 +72,6 @@ COPY httpd-vhost.conf.docker /usr/local/httpd/conf/extra/httpd-vhosts.conf
 EXPOSE 80
 EXPOSE 443
 
-## Run nginx
+## Run apache
 ENTRYPOINT [ "/usr/local/httpd/bin/httpd", "-k", "start", "-DFOREGROUND" ]
 
