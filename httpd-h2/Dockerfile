@@ -8,7 +8,7 @@ RUN apt-get -y update && \
     apt-get -y install \
         g++ \
         gcc \
-        libpcre4-dev \
+        libpcre3-dev \
         make \
         wget
 
