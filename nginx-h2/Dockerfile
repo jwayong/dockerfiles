@@ -2,17 +2,18 @@ FROM ubuntu:14.04
 MAINTAINER Bluesoft Fire <devops@bluesoft.com.br>
 
 # Install dependencies
-RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get -y install \
+RUN apt-get -q update && \
+    apt-get -q -y --no-install-recommends install \
         g++ \
         gcc \
         libpcre3-dev \
         libssl-dev \
         make \
+        openssl \
         patch \
         wget \
-        zlib1g-dev
+        zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Download nginx
 RUN mkdir $HOME/src && \

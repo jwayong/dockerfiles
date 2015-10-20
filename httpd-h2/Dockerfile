@@ -2,14 +2,15 @@ FROM ubuntu:14.04
 MAINTAINER Bluesoft Fire <devops@bluesoft.com.br>
 
 # Install dependencies
-RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get -y install \
+RUN apt-get -q update && \
+    apt-get -q -y --no-install-recommends install \
+        ca-certificates \
         g++ \
         gcc \
         libpcre4-dev \
         make \
-        wget
+        wget && \
+    rm -rf /var/lib/apt/lists/*
 
 # Download apache apr and apr-util
 RUN mkdir -p $HOME/src && \
