@@ -1,6 +1,8 @@
 FROM ubuntu:14.04
 MAINTAINER Bluesoft Fire <devops@bluesoft.com.br>
 
+ENV NGINX_VERSION 1.9.5
+
 # Install dependencies
 RUN apt-get -q update && \
     apt-get -q -y --no-install-recommends install \
@@ -17,14 +19,10 @@ RUN apt-get -q update && \
 
 # Download nginx
 RUN mkdir $HOME/src && \
-    wget -nv http://nginx.org/download/nginx-1.9.3.tar.gz -O - | tar -xz -C $HOME/src
-
-# Apply http2 patch
-RUN cd $HOME/src/nginx-1.9.3 && \
-    wget -nv http://nginx.org/patches/http2/patch.http2.txt -O - | patch -p1
+    wget -nv http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz -O - | tar -xz -C $HOME/src
 
 # Compile and install nginx
-RUN cd $HOME/src/nginx-1.9.3 && \
+RUN cd $HOME/src/nginx-$NGINX_VERSION && \
     ./configure \
         --prefix=/usr/local/nginx \
         --user=www-data \
