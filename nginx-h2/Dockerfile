@@ -16,20 +16,21 @@ RUN apt-get -y update && \
 
 # Download nginx
 RUN mkdir $HOME/src && \
-    wget -O $HOME/src/nginx-1.9.3.tar.gz http://nginx.org/download/nginx-1.9.3.tar.gz && \
-    tar xzf $HOME/src/nginx-1.9.3.tar.gz -C $HOME/src/
+    wget -nv http://nginx.org/download/nginx-1.9.3.tar.gz -O - | tar -xz -C $HOME/src
 
 # Apply http2 patch
-RUN wget -O $HOME/src/nginx-1.9.3/patch.http2.txt http://nginx.org/patches/http2/patch.http2.txt && \
-    cd $HOME/src/nginx-1.9.3/ && \
-    patch -p1 < patch.http2.txt
+RUN cd $HOME/src/nginx-1.9.3 && \
+    wget -nv http://nginx.org/patches/http2/patch.http2.txt -O - | patch -p1
 
-# Compile nginx
-RUN mkdir -p /usr/local/nginx && \
-    cd $HOME/src/nginx-1.9.3/ && \
-    ./configure --prefix=/usr/local/nginx/ --user=www-data --group=www-data --build=nginx-bsh2-1 --with-http_ssl_module --with-http_v2_module
-
-RUN cd $HOME/src/nginx-1.9.3/ && \
+# Compile and install nginx
+RUN cd $HOME/src/nginx-1.9.3 && \
+    ./configure \
+        --prefix=/usr/local/nginx \
+        --user=www-data \
+        --group=www-data \
+        --build=nginx-bsh2-1 \
+        --with-http_ssl_module \
+        --with-http_v2_module && \
     make && \
     make install
 
@@ -39,7 +40,7 @@ RUN mkdir /usr/local/nginx/conf/ssl && \
     openssl req -subj "/C=BR/ST=SP/L=São Paulo/O=Acme Inc/OU=DevOps" -new -key /usr/local/nginx/conf/ssl/h2-server.key -out /usr/local/nginx/conf/ssl/h2-server.csr && \
     openssl x509 -req -days 365 -in /usr/local/nginx/conf/ssl/h2-server.csr -signkey /usr/local/nginx/conf/ssl/h2-server.key -out /usr/local/nginx/conf/ssl/h2-server.crt
 
-RUN rm /usr/local/nginx/conf/ssl/h2-server.csr && \
+RUN rm -f /usr/local/nginx/conf/ssl/h2-server.csr && \
     chown -R www-data:www-data /usr/local/nginx/conf/ssl && \
     chmod 0400 /usr/local/nginx/conf/ssl/h2-server.key && \
     chmod 0444 /usr/local/nginx/conf/ssl/h2-server.crt
@@ -49,8 +50,7 @@ COPY nginx.conf.docker /usr/local/nginx/conf/nginx.conf
 RUN mkdir -p /usr/local/nginx/html/
 
 # Remove downloaded files
-RUN rm -r $HOME/src/nginx-1.9.3 && \
-    rm $HOME/src/nginx-1.9.3.tar.gz
+RUN rm -rf $HOME/src
 
 # Expose ports
 EXPOSE 80 443

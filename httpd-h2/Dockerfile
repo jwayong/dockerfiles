@@ -11,26 +11,19 @@ RUN apt-get -y update && \
         make \
         wget
 
-# Download apache apr
-RUN mkdir -p $HOME/src/ && \
-    wget -O $HOME/src/apr-1.5.2.tar.gz http://ftp.unicamp.br/pub/apache/apr/apr-1.5.2.tar.gz && \
-    tar xzf $HOME/src/apr-1.5.2.tar.gz -C $HOME/src/
-
-# Download apache apr-util
-RUN wget -O $HOME/src/apr-util-1.5.4.tar.gz http://ftp.unicamp.br/pub/apache//apr/apr-util-1.5.4.tar.gz && \
-    tar xzf $HOME/src/apr-util-1.5.4.tar.gz -C $HOME/src/
+# Download apache apr and apr-util
+RUN mkdir -p $HOME/src && \
+    wget -nv http://ftp.unicamp.br/pub/apache/apr/apr-1.5.2.tar.gz -O - | tar -xz -C $HOME/src && \
+    wget -nv http://ftp.unicamp.br/pub/apache/apr/apr-util-1.5.4.tar.gz -O - | tar -xz -C $HOME/src
 
 # Download nghttp2
-RUN wget -O $HOME/src/nghttp2-1.3.4.tar.gz https://github.com/tatsuhiro-t/nghttp2/releases/download/v1.3.4/nghttp2-1.3.4.tar.gz && \
-    tar xzf $HOME/src/nghttp2-1.3.4.tar.gz -C $HOME/src/
+RUN wget -nv https://github.com/tatsuhiro-t/nghttp2/releases/download/v1.3.4/nghttp2-1.3.4.tar.gz -O - | tar -xz -C $HOME/src
 
 # Download openssl
-RUN wget -O $HOME/src/openssl-1.0.2d.tar.gz ftp://ftp.openssl.org/source/openssl-1.0.2d.tar.gz && \
-    tar xzf $HOME/src/openssl-1.0.2d.tar.gz -C $HOME/src/
+RUN wget -nv ftp://ftp.openssl.org/source/openssl-1.0.2d.tar.gz -O - | tar -xz -C $HOME/src
 
 # Download apache
-RUN wget -O $HOME/src/httpd-2.4.17.tar.gz http://ftp.unicamp.br/pub/apache//httpd/httpd-2.4.17.tar.gz && \
-    tar xzf $HOME/src/httpd-2.4.17.tar.gz -C $HOME/src/
+RUN wget -nv http://ftp.unicamp.br/pub/apache//httpd/httpd-2.4.17.tar.gz -O - | tar -xz -C $HOME/src
 
 # Compile apache apr
 RUN cd $HOME/src/apr-1.5.2/ && \
@@ -57,13 +50,23 @@ RUN cd $HOME/src/openssl-1.0.2d/ && \
     make install
 
 # Compile apache
-RUN cd $HOME/src/httpd-2.4.17/ && \
-    ./configure --prefix=/usr/local/httpd/ --enable-http2 --enable-http --enable-ssl --enable-ssl-staticlib-deps --with-apr=/usr/local/apr/ --with-apr-util=/usr/local/apr-util/ --with-nghttp2=/usr/local/nghttp2/ --with-ssl=/usr/local/openssl/ --enable-mods-static=ssl && \
+RUN cd $HOME/src/httpd-2.4.17 && \
+    ./configure \
+        --prefix=/usr/local/httpd \
+        --enable-http2 \
+        --enable-http \
+        --enable-ssl \
+        --enable-ssl-staticlib-deps \
+        --with-apr=/usr/local/apr \
+        --with-apr-util=/usr/local/apr-util \
+        --with-nghttp2=/usr/local/nghttp2 \
+        --with-ssl=/usr/local/openssl \
+        --enable-mods-static=ssl && \
     make && \
     make install
 
 # Remove downloaded tarballs
-RUN rm -r $HOME/src/*
+RUN rm -rf $HOME/src
 
 # Generate ssl key and certificate
 RUN mkdir /usr/local/httpd/conf/ssl && \
