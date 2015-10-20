@@ -7,7 +7,7 @@ RUN apt-get -q update && \
         ca-certificates \
         g++ \
         gcc \
-        libpcre4-dev \
+        libpcre3-dev \
         make \
         wget && \
     rm -rf /var/lib/apt/lists/*
