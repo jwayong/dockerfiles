@@ -53,7 +53,7 @@ RUN rm -r $HOME/src/nginx-1.9.3 && \
     rm $HOME/src/nginx-1.9.3.tar.gz
 
 # Expose ports
-EXPOSE 443
+EXPOSE 80 443
 
 # Run nginx
 ENTRYPOINT [ "/usr/local/nginx/sbin/nginx", "-g", "daemon off;" ]

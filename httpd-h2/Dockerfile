@@ -1,4 +1,3 @@
-
 FROM ubuntu:14.04
 MAINTAINER Bluesoft Fire <devops@bluesoft.com.br>
 
@@ -79,9 +78,7 @@ RUN mkdir -p /usr/local/httpd/htdocs/
 COPY httpd-vhost.conf.docker /usr/local/httpd/conf/extra/httpd-vhosts.conf
 
 # Expose ports
-EXPOSE 80
-EXPOSE 443
+EXPOSE 80 443
 
 ## Run apache
 ENTRYPOINT [ "/usr/local/httpd/bin/httpd", "-k", "start", "-DFOREGROUND" ]
-
