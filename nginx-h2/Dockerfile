@@ -12,7 +12,6 @@ RUN apt-get -q update && \
         libssl-dev \
         make \
         openssl \
-        patch \
         wget \
         zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
