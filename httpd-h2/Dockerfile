@@ -21,10 +21,10 @@ RUN mkdir -p $HOME/src && \
 RUN wget -nv https://github.com/tatsuhiro-t/nghttp2/releases/download/v1.3.4/nghttp2-1.3.4.tar.gz -O - | tar -xz -C $HOME/src
 
 # Download openssl
-RUN wget -nv ftp://ftp.openssl.org/source/openssl-1.0.2d.tar.gz -O - | tar -xz -C $HOME/src
+RUN wget -nv ftp://ftp.openssl.org/source/openssl-1.0.2g.tar.gz -O - | tar -xz -C $HOME/src
 
 # Download apache
-RUN wget -nv http://ftp.unicamp.br/pub/apache//httpd/httpd-2.4.17.tar.gz -O - | tar -xz -C $HOME/src
+RUN wget -nv http://ftp.unicamp.br/pub/apache//httpd/httpd-2.4.18.tar.gz -O - | tar -xz -C $HOME/src
 
 # Compile apache apr
 RUN cd $HOME/src/apr-1.5.2/ && \
@@ -45,13 +45,13 @@ RUN cd $HOME/src/nghttp2-1.3.4/ && \
     make install
 
 # Compile openssl
-RUN cd $HOME/src/openssl-1.0.2d/ && \
+RUN cd $HOME/src/openssl-1.0.2g/ && \
     ./config --prefix=/usr/local/openssl/ && \
     make && \
     make install
 
 # Compile apache
-RUN cd $HOME/src/httpd-2.4.17 && \
+RUN cd $HOME/src/httpd-2.4.18 && \
     ./configure \
         --prefix=/usr/local/httpd \
         --enable-http2 \
