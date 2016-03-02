@@ -1,6 +1,12 @@
 FROM ubuntu:14.04
 MAINTAINER Bluesoft Fire <devops@bluesoft.com.br>
 
+ENV APR_VERSION 1.5.2
+ENV APR_UTIL_VERSION 1.5.4
+ENV HTTPD_VERSION 2.4.18
+ENV NGHTTP2_VERSION 1.3.4
+ENV OPENSSL_VERSION 1.0.2g
+
 # Install dependencies
 RUN apt-get -q update && \
     apt-get -q -y --no-install-recommends install \
@@ -14,44 +20,44 @@ RUN apt-get -q update && \
 
 # Download apache apr and apr-util
 RUN mkdir -p $HOME/src && \
-    wget -nv http://ftp.unicamp.br/pub/apache/apr/apr-1.5.2.tar.gz -O - | tar -xz -C $HOME/src && \
-    wget -nv http://ftp.unicamp.br/pub/apache/apr/apr-util-1.5.4.tar.gz -O - | tar -xz -C $HOME/src
+    wget -nv http://ftp.unicamp.br/pub/apache/apr/apr-${APR_VERSION}.tar.gz -O - | tar -xz -C $HOME/src && \
+    wget -nv http://ftp.unicamp.br/pub/apache/apr/apr-util-${APR_UTIL_VERSION}.tar.gz -O - | tar -xz -C $HOME/src
 
 # Download nghttp2
-RUN wget -nv https://github.com/tatsuhiro-t/nghttp2/releases/download/v1.3.4/nghttp2-1.3.4.tar.gz -O - | tar -xz -C $HOME/src
+RUN wget -nv https://github.com/tatsuhiro-t/nghttp2/releases/download/v${NGHTTP2_VERSION}/nghttp2-${NGHTTP2_VERSION}.tar.gz -O - | tar -xz -C $HOME/src
 
 # Download openssl
-RUN wget -nv ftp://ftp.openssl.org/source/openssl-1.0.2g.tar.gz -O - | tar -xz -C $HOME/src
+RUN wget -nv ftp://ftp.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz -O - | tar -xz -C $HOME/src
 
 # Download apache
-RUN wget -nv http://ftp.unicamp.br/pub/apache//httpd/httpd-2.4.18.tar.gz -O - | tar -xz -C $HOME/src
+RUN wget -nv http://ftp.unicamp.br/pub/apache//httpd/httpd-${HTTPD_VERSION}.tar.gz -O - | tar -xz -C $HOME/src
 
 # Compile apache apr
-RUN cd $HOME/src/apr-1.5.2/ && \
+RUN cd $HOME/src/apr-${APR_VERSION}/ && \
     ./configure --prefix=/usr/local/apr/ && \
     make && \
     make install
 
 # Compile apache apr-util
-RUN cd $HOME/src/apr-util-1.5.4/ && \
+RUN cd $HOME/src/apr-util-${APR_UTIL_VERSION}/ && \
     ./configure --prefix=/usr/local/apr-util/ --with-apr=/usr/local/apr/ && \
     make && \
     make install
 
 # Compile nghttp2
-RUN cd $HOME/src/nghttp2-1.3.4/ && \
+RUN cd $HOME/src/nghttp2-${NGHTTP2_VERSION}/ && \
     ./configure --prefix=/usr/local/nghttp2/ && \
     make && \
     make install
 
 # Compile openssl
-RUN cd $HOME/src/openssl-1.0.2g/ && \
+RUN cd $HOME/src/openssl-${OPENSSL_VERSION}/ && \
     ./config --prefix=/usr/local/openssl/ && \
     make && \
     make install
 
 # Compile apache
-RUN cd $HOME/src/httpd-2.4.18 && \
+RUN cd $HOME/src/httpd-${HTTPD_VERSION} && \
     ./configure \
         --prefix=/usr/local/httpd \
         --enable-http2 \
