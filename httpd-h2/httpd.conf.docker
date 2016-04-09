@@ -26,6 +26,7 @@ LoadModule status_module modules/mod_status.so
 LoadModule autoindex_module modules/mod_autoindex.so
 LoadModule dir_module modules/mod_dir.so
 LoadModule alias_module modules/mod_alias.so
+LoadModule deflate_module modules/mod_deflate.so
 
 <IfModule unixd_module>
     User daemon
@@ -85,6 +86,22 @@ Protocols h2c http/1.1
 <IfModule ssl_module>
     SSLRandomSeed startup builtin
     SSLRandomSeed connect builtin
+</IfModule>
+
+<IfModule mod_deflate.c>
+    SetEnvIfNoCase Request_URI "\.(?:gif|jpe?g|png)$" no-gzip dont-vary
+    SetEnvIfNoCase Request_URI "\.(?:exe|t?gz|zip|bz2|sit|rar)$" no-gzip
+
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xhtml+xml text/css  text/javascript application/javascript application/x-javascript application/xml
+
+    SetOutputFilter DEFLATE
+
+    # Netscape 4.X
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    # Netscape 4.06-4.08
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    # MSIE
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
 </IfModule>
 
 Include conf/extra/httpd-vhosts.conf

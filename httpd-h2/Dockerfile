@@ -15,7 +15,8 @@ RUN apt-get -q update && \
         gcc \
         libpcre3-dev \
         make \
-        wget && \
+        wget \
+	zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Download apache apr and apr-util
@@ -64,10 +65,12 @@ RUN cd $HOME/src/httpd-${HTTPD_VERSION} && \
         --enable-http \
         --enable-ssl \
         --enable-ssl-staticlib-deps \
+	--enable-deflate \
         --with-apr=/usr/local/apr \
         --with-apr-util=/usr/local/apr-util \
         --with-nghttp2=/usr/local/nghttp2 \
         --with-ssl=/usr/local/openssl \
+	--with-z=/usr/local \
         --enable-mods-static=ssl && \
     make && \
     make install
