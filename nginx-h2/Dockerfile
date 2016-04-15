@@ -28,7 +28,8 @@ RUN cd $HOME/src/nginx-$NGINX_VERSION && \
         --group=www-data \
         --build=nginx-bsh2-1 \
         --with-http_ssl_module \
-        --with-http_v2_module && \
+        --with-http_v2_module \
+        --with-http_gunzip_module && \
     make && \
     make install
 
