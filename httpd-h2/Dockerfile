@@ -16,7 +16,7 @@ RUN apt-get -q update && \
         libpcre3-dev \
         make \
         wget \
-	zlib1g-dev && \
+        zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
 
 # Download apache apr and apr-util
