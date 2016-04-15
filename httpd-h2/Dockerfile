@@ -65,12 +65,12 @@ RUN cd $HOME/src/httpd-${HTTPD_VERSION} && \
         --enable-http \
         --enable-ssl \
         --enable-ssl-staticlib-deps \
-	--enable-deflate \
+        --enable-deflate \
         --with-apr=/usr/local/apr \
         --with-apr-util=/usr/local/apr-util \
         --with-nghttp2=/usr/local/nghttp2 \
         --with-ssl=/usr/local/openssl \
-	--with-z=/usr/local \
+        --with-z=/usr/local \
         --enable-mods-static=ssl && \
     make && \
     make install
