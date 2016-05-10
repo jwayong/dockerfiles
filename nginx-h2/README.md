@@ -15,8 +15,8 @@ $ docker run -d -p 8443:443 -v /path/to/my/website/:/usr/local/nginx/html/ nginx
 Or you may just pull the image from Dockerhub.
 
 ```
-$ docker pull devopsbluesoft/nginx-h2
-$ docker run -d -p 8443:443 -v /caminho/do/meu-site/:/usr/local/nginx/html/ nginx-h2
+$ docker pull bluesoftbr/nginx-h2
+$ docker run -d -p 8443:443 -v /path/to/my/website/:/usr/local/nginx/html/ nginx-h2
 ```
 
 Change ```/path/to/my/website/``` to the absolute path to your website.
@@ -25,7 +25,10 @@ Access ```https://localhost:8443/``` through your browser and have fun!
 
 ## Important
 
-The HTTP/2 patch for Nginx is still in alpha. You may want to test it before putting it into production. [Read their blog post for more info].
+For more information on the options to configure HTTP/2 in Nginx, [please visit their documentation].
+Nginx 1.9.5 was released 2015-09-22 as a stable release. [Take a look at the Announcement].
 
 [//]: #
-[Read their blog post for more info]: <https://www.nginx.com/blog/early-alpha-patch-http2/>
+[please visit their documentation]: <http://nginx.org/en/docs/http/ngx_http_v2_module.html>
+[Take a look at the Announcement]: <https://www.nginx.com/blog/nginx-1-9-5/>
+

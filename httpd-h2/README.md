@@ -6,10 +6,17 @@ The build we do in this Dockerfile will work for a single static website. You ma
 To make the Docker build, you may clone this repository and run the Docker commands as follows.
 
 ```
-$ git clone 
-$ cd 
+$ git clone
+$ cd
 $ docker build -t httpd-h2 .
-$ docker run -d -p 8443:443 -p 8080:80 -v /path/to/my/website/:/usr/local/httpd/htdocs/ httpd-h2
+$ docker run -d -p 8443:443 -v /path/to/my/website/:/usr/local/httpd/htdocs/ httpd-h2
+```
+
+Or you may just pull the image from Dockerhub.
+
+```
+$ docker pull bluesoftbr/httpd-h2
+$ docker run -d -p 8443:443 -v /path/to/my/website/:/usr/local/httpd/htdocs/ httpd-h2
 ```
 
 Change ```/path/to/my/website/``` to the absolute path to your website.
